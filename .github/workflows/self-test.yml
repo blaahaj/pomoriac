@@ -1,0 +1,24 @@
+name: self-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: path to the manifest.json
+        required: false
+        default: self-test-manifest.json
+      dry_run:
+        description: show changes without actually applying them
+        required: true
+        default: "false"
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: blaahaj/pomoriac@HEAD
+        with:
+          dry_run: ${{ inputs.dry_run }}
+          manifest: ${{ inputs.manifest }}

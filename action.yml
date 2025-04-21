@@ -1,0 +1,25 @@
+name: Pomoriac (GitHub IaC)
+description: Manage GitHub infrastructure as code
+branding:
+  icon: code
+  color: gray-dark
+
+inputs:
+  manifest:
+    description: path to the manifest.json
+    required: false
+    default: pomoriac.yml
+  dry_run:
+    description: show changes without actually applying them
+    required: true
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/pomoriac.sh
+      shell: bash
+      env:
+        POMORIAC_DRY_RUN: ${{ inputs.dry_run }}
+        POMORIAC_MANIFEST: ${{ inputs.manifest }}
+        GH_TOKEN: ${{ github.token }}
